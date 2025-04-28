@@ -1,0 +1,7 @@
+WEB: 
+  url: https://katalon-demo-cura.herokuapp.com/
+  driver: chrome
+
+GLOBE_VAR:
+  global_count: 3  # for counting in loop
+  global_wait: 15
