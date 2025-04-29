@@ -11,12 +11,20 @@ Open CURA
 Verify_Element
     [Documentation]    Verifies that the element is visible on the page and returns True or False.
     [Arguments]    ${element}
-
     ${is_visible}    Run Keyword And Return Status    Wait Until Element Is Visible    ${element}    ${GLOBE_VAR['global_wait']}
-    
     Run Keyword If    not ${is_visible}    Log    Element '${element}' not found.    WARN
-
     RETURN    ${is_visible}
+
+Verify_Element_Then_Click
+    [Documentation]    Check that the element is visible and then click.
+    [Arguments]    ${element}
+    ${is_visible}    Run Keyword And Return Status    Wait Until Element Is Visible    ${element}    ${GLOBE_VAR['global_wait']}
+
+    IF    ${is_visible}
+        Click Element    ${element}
+    ELSE
+        Log    Can't find Element ${element} in Verify_Element_Then_Click.
+    END
 
 Get_Text_From_Element
     [Documentation]    use to get text out from element locator.
@@ -34,7 +42,7 @@ Login
     
     ${is_exist}    Verify_Element    ${LOGIN_WELCOME}
     IF    not ${is_exist}
-        log    can't find ${LOGIN_WELCOME} in this page.
+        log    can't find ${LOGIN_WELCOME} in login page.
 
     ELSE
         Input Text    ${USERNAME_INPUT}    ${username}
@@ -47,19 +55,13 @@ Go To Home Page
     Go To    https://katalon-demo-cura.herokuapp.com/
 
 # Navigate Bar Section
-Click Navigate Bar
-    [Documentation]    a keywords to open nav bar.
-    ${burger_btn}    Verify_Element    ${MENU_BURGER} 
-    IF    ${burger_btn}
-        Click Element    ${MENU_BURGER}
-    END
 
 Click Navigate Bar Then Select
     [Documentation]    a keywords to open nav bar, then select button [home, login, profile, history, logout]
     [Arguments]    ${btn}
     ${word}    Convert To Title Case    ${btn}
     
-    Click Navigate Bar
+    Verify_Element_Then_Click    ${MENU_BURGER}
     
     IF    '${word}' == 'Home'
         Click Element    ${HOME_NAV}
@@ -72,5 +74,5 @@ Click Navigate Bar Then Select
     ELSE IF    '${word}' == 'Logout'
         Click Element    ${LOGOUT_NAV} 
     ELSE
-        Fail    Please select correct button
+        Fail    Please input correct button.
     END

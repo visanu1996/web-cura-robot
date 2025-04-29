@@ -1,6 +1,5 @@
 *** Settings ***
 Resource    ${CURDIR}/../import.robot
-Resource    ../../automationexercise/resources/keywords/common_keywords.resource
 
 Suite Setup     Open CURA
 Suite Teardown    Close All Browsers
@@ -12,18 +11,16 @@ TC_HOME_UI_TEST_002
     ...    1. Open CURA Healthcare Service
     ...    2. Click Appointment button.
 
-    ${appoint_btn}    Verify_Element    ${APPOINTMENT_BTN}
-    Should Be True    ${appoint_btn}    
+    Element Should Be Visible    ${APPOINTMENT_BTN}
     Click Element    ${APPOINTMENT_BTN}
     Element Should Be Visible    ${LOGIN_WELCOME}
-
 
 TC_HOME_UI_TEST_004
     [Documentation]    Verify that clicking menu burger will open a navigate bar that have Login button.
     ...    1. Open CURA Healthcare Service
     ...    2. Click Click burger menu.
     
-    Click Navigate Bar
+    Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Be Visible    ${LOGIN_NAV}
 
 TC_HOME_UI_TEST_005
@@ -32,9 +29,9 @@ TC_HOME_UI_TEST_005
     ...    2. Click burger menu for 2 times.
     ...    3. Check that nav bar is not visible.
 
-    Click Navigate Bar
+    Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Be Visible    ${ACTIVE_NAV}
-    Click Navigate Bar
+    Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Not Be Visible    ${ACTIVE_NAV}
 
 TC_HOME_UI_TEST_006
