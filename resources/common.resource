@@ -7,3 +7,5 @@ ${LOGOUT_NAV}    ${ACTIVE_NAV}//a[.="Logout"]
 ${PROFILE_NAV}    ${ACTIVE_NAV}//a[.="Profile"]
 ${HISTORY_NAV}    ${ACTIVE_NAV}//a[.="History"]
 ${TO_TOP}    id:to-top
+
+${TWIITER_MEDIA}    //i[contains(@class,"twitter")]

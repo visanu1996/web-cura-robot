@@ -8,3 +8,5 @@ ${DEMO_USER}    John Doe
 ${DEMO_PASS}    ThisIsNotAPassword
 # ${USERNAME_LOCATOR}    //input[@aria-describedby='demo_username_label']
 # ${PASSWORD_LOCATOR}    //input[@aria-describedby='demo_password_label']
+
+${LOGIN_FAILED}    //p[contains(.,'Login failed!')]

@@ -12,6 +12,7 @@ Verify_Element
     [Documentation]    Verifies that the element is visible on the page and returns True or False.
     [Arguments]    ${element}
     ${is_visible}    Run Keyword And Return Status    Wait Until Element Is Visible    ${element}    ${GLOBE_VAR['global_wait']}
+    Log    is element visible : ${is_visible}
     Run Keyword If    not ${is_visible}    Log    Element '${element}' not found.    WARN
     RETURN    ${is_visible}
 
@@ -22,6 +23,7 @@ Verify_Element_Then_Click
 
     IF    ${is_visible}
         Click Element    ${element}
+        Sleep    2
     ELSE
         Log    Can't find Element ${element} in Verify_Element_Then_Click.
     END
@@ -31,7 +33,7 @@ Get_Text_From_Element
     [Arguments]    ${element}
 
     ${text}    Get Text    ${element}
-    log    text from ${element} : ${text}
+    Log    text from ${element} : ${text}
 
     RETURN ${text}
 
@@ -42,11 +44,12 @@ Login
     
     ${is_exist}    Verify_Element    ${LOGIN_WELCOME}
     IF    not ${is_exist}
-        log    can't find ${LOGIN_WELCOME} in login page.
+        Log    can't find ${LOGIN_WELCOME} in login page.
 
     ELSE
         Input Text    ${USERNAME_INPUT}    ${username}
         Input Password    ${PASSWORD_INPUT}    ${password}
+        Click Element    ${LOGIN_BTN}
     END
 
 
@@ -54,6 +57,9 @@ Go To Home Page
     [Documentation]    for going to homepage without clicking any button
     Go To    https://katalon-demo-cura.herokuapp.com/
 
+Go To Login Page
+    [Documentation]
+    Go To    https://katalon-demo-cura.herokuapp.com/profile.php#login
 # Navigate Bar Section
 
 Click Navigate Bar Then Select
@@ -76,3 +82,9 @@ Click Navigate Bar Then Select
     ELSE
         Fail    Please input correct button.
     END
+
+
+Scroll_To_Bottom
+    [Documentation]    scroll to bottom.
+    Scroll Element Into View    ${TWIITER_MEDIA}
+    

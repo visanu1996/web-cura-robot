@@ -20,7 +20,7 @@ TC_HOME_UI_TEST_004
     ...    1. Open CURA Healthcare Service
     ...    2. Click Click burger menu.
     
-    Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Be Visible    ${LOGIN_NAV}
 
 TC_HOME_UI_TEST_005
@@ -29,9 +29,9 @@ TC_HOME_UI_TEST_005
     ...    2. Click burger menu for 2 times.
     ...    3. Check that nav bar is not visible.
 
-    Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Be Visible    ${ACTIVE_NAV}
-    Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify_Element_Then_Click    ${MENU_BURGER}
     Element Should Not Be Visible    ${ACTIVE_NAV}
 
 TC_HOME_UI_TEST_006
@@ -39,5 +39,5 @@ TC_HOME_UI_TEST_006
     ...    1. Open CURA Healthcare Service
     ...    2. Click Login button.
     
-    Click Navigate Bar Then Select    login
+    common.Click Navigate Bar Then Select    login
     Element Should Be Visible    ${LOGIN_WELCOME}
