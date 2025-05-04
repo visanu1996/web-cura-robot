@@ -1,12 +1,22 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    String
 
 *** Keywords ***
 Open CURA
-    [Documentation]    use with test or tier setup for opening the test browser.
-    Open Browser    ${WEB['url']}    ${WEB['driver']}
+    [Documentation]    Open CURA with disabled chrome popup change password, data breach.
+    ${prefs}        Create Dictionary   
+    ...    credentials_enable_service=False
+    ...    profile.password_manager_enabled=False
+    ...    safebrowsing.enabled=False
+    ...    download.default_directory=${EXECDIR}${/}data_files${/}
+    
+    ${chrm_opts}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Call Method    ${chrm_opts}    add_argument    --guest
+
+    Create Webdriver    Chrome    crm_alias    options=${chrm_opts}
     Maximize Browser Window
+    Go To    ${WEB['url']}
+
 
 Verify_Element
     [Documentation]    Verifies that the element is visible on the page and returns True or False.
@@ -27,16 +37,6 @@ Verify_Element_Then_Click
     ELSE
         Log    Can't find Element ${element} in Verify_Element_Then_Click.
     END
-
-Get_Text_From_Element
-    [Documentation]    use to get text out from element locator.
-    [Arguments]    ${element}
-
-    ${text}    Get Text    ${element}
-    Log    text from ${element} : ${text}
-
-    RETURN ${text}
-
 
 Login
     [Documentation]    use for login

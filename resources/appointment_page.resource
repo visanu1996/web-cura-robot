@@ -1,8 +1,8 @@
 *** Variables ***
 ${APPOINT_WELCOME}    //h2[.='Make Appointment']
 ${FACILITY}    id:combo_facility    # facility to select.
-${READMISSION}    id:chk_hospital_readmission    # a check box.
-&{HEALTH_PROGRAM}    medicare=id:radio_program_medicare    medicaid=id:radio_program_medicaid    none=id:radio_program_none
+${READMISSION}    id:chk_hospotal_readmission    # a check box.
+&{HEALTH_PROGRAM}    medicare=id:radio_program_medicare    medicaid=id:radio_program_medicaid    no=id:radio_program_none
 ${VISIT_DATE}    id:txt_visit_date   # date pick
 ${COMMENT_AREA}    id:txt_comment    # for commentation.
 ${SUBMIT_APPOINTMENT}    id:btn-book-appointment    # click appointment.

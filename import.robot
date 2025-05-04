@@ -1,5 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    DateTime
 
 # Resrouces. Keywords
 Resource    ${CURDIR}/keywords/common.resource
