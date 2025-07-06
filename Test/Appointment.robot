@@ -1,8 +1,9 @@
 *** Settings ***
 Resource    ${CURDIR}/../import.robot
 
-Suite Setup     Open CURA
-Suite Teardown    Close All Browsers
+Suite Setup     Run Keywords    Create Web Driver
+...                             Open Cura                            
+Suite Teardown    Browser.Close Browser
 
 *** Test Cases ***
 TC_Appointment_UI_TEST_002
@@ -10,7 +11,7 @@ TC_Appointment_UI_TEST_002
     ...    1. Fill all fields with test Data
     ...    2. Click Book Appointment
     common.Go To Login Page
-    common.Login    ${DEMO_USER}    ${DEMO_PASS}
-    common.Verify_Element    ${APPOINT_WELCOME}
-    appointment.Insert Booking Data    Hongkong    Y    no    comment_n=Hello world   
-    Sleep    5 
+    login_page.Login    ${DEMO_USER}    ${DEMO_PASS}
+    Browser.Wait For Elements State    ${APPOINT_WELCOME}    stable
+    appointment_page.Insert Booking Data    Hongkong    Y    no    comment_n=Hello world   
+    Sleep    10
