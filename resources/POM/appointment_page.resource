@@ -5,6 +5,10 @@ Library    Collections
 *** Variables ***
 ${APPOINT_WELCOME}    //h2[.='Make Appointment']
 ${FACILITY}    id=combo_facility    # facility to select.
+&{FACILITY_CHOICE}    tokyo=Tokyo CURA Healthcare Center
+...                   hongkong=Hongkong CURA Healthcare Center
+...                   seoul=Seoul CURA Healthcare Center
+
 ${READMISSION}    id=chk_hospotal_readmission    # a check box.
 &{HEALTH_PROGRAM}    medicare=id=radio_program_medicare    medicaid=id=radio_program_medicaid    no=id=radio_program_none
 ${VISIT_DATE}    id=txt_visit_date   # date pick
@@ -32,18 +36,44 @@ ${GO_HOME}    //a[.='Go to Homepage']
 
 Insert Booking Data
     [Documentation]    for insert booking data.
-    [Arguments]    ${facility_n}="Tokyo"    ${readmission_n}=${None}    ${healthcare_n}=no    ${comment_n}=${None}    ${visit_date_n}=${None}
-    ${data_set}=    Create Dictionary    facility=${facility_n}    read_mission=${readmission_n}    health_care=${healthcare_n}    comment=${comment_n}    visit_date=${visit_date_n}
+    [Arguments]    ${FACILITY_N}=Tokyo    ${READISSION_N}=${None}    ${HEALTHCARE_N}=no    ${COMMMENT_N}=${None}    ${VISIT_DATE_N}=${None}
+    VAR    &{DATA_SET}    scope=SUITE
+# Facility
+    ${FACILITY_N}    Evaluate    '${FACILITY_N}'.lower()
+    Select Options By    ${FACILITY}    label    ${FACILITY_CHOICE['${FACILITY_N}']}
+    Sleep    1
+    ${FACILITY_SELECTED}    Get Selected Options     ${FACILITY}
+    
+# Readmission
+    IF    '${READISSION_N}' != '${None}'    
+        Browser.Click    ${READMISSION}            
+        ${READMISSION_CHOICE}    Set Variable    Yes
+    ELSE
+        ${READMISSION_CHOICE}    Set Variable    No
+    END
 
-    Run Keyword If    '${readmission_n}' != '${None}'    Browser.Click    ${READMISSION}
+# Healthcare program
+    Browser.Click    ${HEALTH_PROGRAM['${HEALTHCARE_N}']}
+    ${HEALTH_TEXT}    Get Text    ${HEALTH_PROGRAM['${HEALTHCARE_N}']}  
 
-    Browser.Click    ${HEALTH_PROGRAM['${healthcare_n}']} 
 
-    Run Keyword If    '${comment_n}' != '${None}'    Browser.Fill Text    ${COMMENT_AREA}    ${comment_n}
+# Comment
+    Run Keyword If    '${COMMMENT_N}' != '${None}'    Browser.Fill Text    ${COMMENT_AREA}    ${COMMMENT_N}
 
-    ${input_date}=    Run Keyword If    '${visit_date_n}' == '${None}'    Get Current Date    result_format=%d/%m/%Y    ELSE    Set Variable    ${visit_date_n}
-    Browser.Fill Text    ${VISIT_DATE}    ${input_date}
+# Date pick
+    ${INPUT_DATE}=    Run Keyword If    '${VISIT_DATE_N}' == '${None}'    Get Current Date    result_format=%d/%m/%Y    ELSE    Set Variable    ${VISIT_DATE_N}
+    Browser.Fill Text    ${VISIT_DATE}    ${INPUT_DATE}
     Browser.Press Keys    ${VISIT_DATE}    Enter
+    
     Sleep    10
     
+    # Get all value to verify in confirmation page
+    Set To Dictionary    ${DATA_SET}    
+    ...    FACILITY=${FACILITY_SELECTED}[0] 
+    ...    READMISSION_CHOICE=${READMISSION_CHOICE}    
+    ...    HEALTH_CARE=${HEALTH_TEXT}    
+    ...    VISIT_DATE=${INPUT_DATE}    
+    ...    COMMENT=${COMMMENT_N}
+
+
     Browser.Click    ${SUBMIT_APPOINTMENT}
