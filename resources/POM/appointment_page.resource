@@ -1,7 +1,3 @@
-*** Settings ***
-Library    Browser  
-Library    DateTime  
-Library    Collections
 *** Variables ***
 ${APPOINT_WELCOME}    //h2[.='Make Appointment']
 ${FACILITY}    id=combo_facility    # facility to select.
@@ -15,19 +11,6 @@ ${VISIT_DATE}    id=txt_visit_date   # date pick
 ${COMMENT_AREA}    id=txt_comment    # for commentation.
 ${SUBMIT_APPOINTMENT}    id=btn-book-appointment    # click appointment.
 
-
-
-# Confirmation page.
-${CONFIRMATION}    //h2[.='Appointment Confirmation']
-${APPOINTMENT_CARD}    //div[div/h2[.="Appointment Confirmation"]]
-
-${C_FACILITY}    //div[label[.="Facility"]]/following-sibling::div
-${C_READMISSION}    //div[label[contains(.,"readmission")]]/following-sibling::div
-${C_HEALTH_PROGRAM}    //div[label[contains(.,"Healthcare")]]/following-sibling::div
-${C_VISIT_DATE}    //div[label[contains(.,"Visit")]]/following-sibling::div
-${C_COMMENT_AREA}    //div[label[.="Comment"]]/following-sibling::div
-
-
 ${GO_HOME}    //a[.='Go to Homepage']
 
 
@@ -36,44 +19,42 @@ ${GO_HOME}    //a[.='Go to Homepage']
 
 Insert Booking Data
     [Documentation]    for insert booking data.
-    [Arguments]    ${FACILITY_N}=Tokyo    ${READISSION_N}=${None}    ${HEALTHCARE_N}=no    ${COMMMENT_N}=${None}    ${VISIT_DATE_N}=${None}
-    VAR    &{DATA_SET}    scope=SUITE
+    [Arguments]    ${facility_n}=Tokyo    ${readmission_n}=${None}    ${healthcare_n}=no    ${comment_n}=${EMPTY}    ${visit_date_n}=${EMPTY}
+    VAR    &{data_set}    scope=SUITE
 # Facility
-    ${FACILITY_N}    Evaluate    '${FACILITY_N}'.lower()
-    Select Options By    ${FACILITY}    label    ${FACILITY_CHOICE['${FACILITY_N}']}
+    ${facility_n}    Evaluate    '${facility_n}'.lower()
+    Select Options By    ${FACILITY}    label    ${FACILITY_CHOICE['${facility_n}']}
     Sleep    1
-    ${FACILITY_SELECTED}    Get Selected Options     ${FACILITY}
+    ${facilitiy_selected}    Get Selected Options     ${FACILITY}
     
 # Readmission
-    IF    '${READISSION_N}' != '${None}'    
+    IF    '${readmission_n}' != '${None}'    
         Browser.Click    ${READMISSION}            
-        ${READMISSION_CHOICE}    Set Variable    Yes
+        ${readmission_choice}    Set Variable    Yes
     ELSE
-        ${READMISSION_CHOICE}    Set Variable    No
+        ${readmission_choice}    Set Variable    No
     END
 
 # Healthcare program
-    Browser.Click    ${HEALTH_PROGRAM['${HEALTHCARE_N}']}
-    ${HEALTH_TEXT}    Get Text    ${HEALTH_PROGRAM['${HEALTHCARE_N}']}  
+    Browser.Click    ${HEALTH_PROGRAM['${healthcare_n}']}
+    ${health_text}    Get Text    ${HEALTH_PROGRAM['${healthcare_n}']}  
 
 
 # Comment
-    Run Keyword If    '${COMMMENT_N}' != '${None}'    Browser.Fill Text    ${COMMENT_AREA}    ${COMMMENT_N}
+    Run Keyword If    '${comment_n}' != '${EMPTY}'    Browser.Fill Text    ${COMMENT_AREA}    ${comment_n}
 
 # Date pick
-    ${INPUT_DATE}=    Run Keyword If    '${VISIT_DATE_N}' == '${None}'    Get Current Date    result_format=%d/%m/%Y    ELSE    Set Variable    ${VISIT_DATE_N}
-    Browser.Fill Text    ${VISIT_DATE}    ${INPUT_DATE}
-    Browser.Press Keys    ${VISIT_DATE}    Enter
-    
-    Sleep    10
-    
+    ${input_date}=    Run Keyword If    '${visit_date_n}' == '${EMPTY}'    Get Current Date    result_format=%d/%m/%Y    ELSE    Set Variable    ${visit_date_n}
+    Browser.Fill Text    ${VISIT_DATE}    ${input_date}
+    Sleep    2
+
+    Browser.Keyboard Key    press    Tab
     # Get all value to verify in confirmation page
-    Set To Dictionary    ${DATA_SET}    
-    ...    FACILITY=${FACILITY_SELECTED}[0] 
-    ...    READMISSION_CHOICE=${READMISSION_CHOICE}    
-    ...    HEALTH_CARE=${HEALTH_TEXT}    
-    ...    VISIT_DATE=${INPUT_DATE}    
-    ...    COMMENT=${COMMMENT_N}
+    Set To Dictionary    ${data_set}    
+    ...    FACILITY=${facilitiy_selected}[0] 
+    ...    READMISSION_CHOICE=${readmission_choice}    
+    ...    HEALTH_CARE=${health_text}    
+    ...    VISIT_DATE=${input_date}    
+    ...    COMMENT=${comment_n}
 
-
-    Browser.Click    ${SUBMIT_APPOINTMENT}
+    common.Verify_Element_Then_Click    ${SUBMIT_APPOINTMENT}

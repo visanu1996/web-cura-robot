@@ -15,4 +15,4 @@ TC_Confirmation_UI_TEST_002
     common.Go To Home Page
     Browser.Wait For Elements State    ${APPOINT_WELCOME}    stable
     appointment_page.Insert Booking Data    facility_n=Tokyo    readmission_n=N    healthcare_n=medicare
-    
+    confirmation_page.Verify Selected Choice    &{data_set}
