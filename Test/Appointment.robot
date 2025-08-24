@@ -33,7 +33,7 @@ TC_Appointment_UI_TEST_004
     Browser.Wait For Elements State    ${PROFILE_NAV}
     Sleep    2
 
-    Browser.Highlight Elements    v
+    Browser.Highlight Elements    ${LOGOUT_NAV}
     Browser.Wait For Elements State    ${LOGOUT_NAV}
     Sleep    2s
 

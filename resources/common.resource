@@ -22,7 +22,7 @@ Open CURA
     ${CURA}    Browser.New Page    ${WEB['url']}    load
     VAR    ${CURA}    scope=SUITE
 
-Verify_Element_Then_Click
+Verify Element Then Click
     [Documentation]    Check that the element is visible and then click.
     [Arguments]    ${element}
     ${is_visible}    Run Keyword And Return Status    Browser.Wait for Elements state    ${element}    state=stable    timeout=${GLOBE_VAR['global_wait']}
@@ -31,7 +31,7 @@ Verify_Element_Then_Click
         Browser.Click    ${element}
         Sleep    1
     ELSE
-        Log    Can't find Element ${element} in Verify_Element_Then_Click.
+        Log    Can't find Element ${element} in Verify Element Then Click.
     END
 
 Go To Home Page
@@ -49,7 +49,7 @@ Click Navigate Bar Then Select
     [Documentation]    a keywords to open nav bar, then select button [home, login, profile, history, logout]
     [Arguments]    ${btn}
     ${word}    Convert To Title Case    ${btn}
-    Verify_Element_Then_Click    ${MENU_BURGER}    
+    Verify Element Then Click    ${MENU_BURGER}    
     
     IF    '${word}' == 'Home'
         Browser.Click    ${HOME_NAV}

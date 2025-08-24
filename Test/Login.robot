@@ -14,7 +14,7 @@ TC_LOGIN_UI_TEST_006
     ...    4. Click Go Top button from the right bottom of the page.
     common.Go To Login Page
     Browser.Scroll To Element    ${TO_TOP}
-    common.Verify_Element_Then_Click    ${TO_TOP}
+    common.Verify Element Then Click    ${TO_TOP}
     Browser.Wait for Elements state    ${TO_TOP}    hidden
 
 TC_LOGIN_TEST_002
@@ -32,7 +32,7 @@ TC_LOGIN_TEST_005
     ...    2. Click login
     common.Go To Login Page
     login_page.Login    ${EMPTY}    ${EMPTY}
-    common.Verify_Element_Then_Click    ${LOGIN_BTN}
+    common.Verify Element Then Click    ${LOGIN_BTN}
     Browser.Wait for Elements state    ${LOGIN_FAILED}    stable
 
 TC_LOGIN_TEST_004

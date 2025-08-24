@@ -21,7 +21,7 @@ TC_HOME_UI_TEST_004
     ...    1. Open CURA Healthcare Service
     ...    2. Click Click burger menu.
     
-    common.Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify Element Then Click    ${MENU_BURGER}
     Browser.Wait For Elements State    ${LOGIN_NAV}    stable
 
 TC_HOME_UI_TEST_005
@@ -30,9 +30,9 @@ TC_HOME_UI_TEST_005
     ...    2. Click burger menu for 2 times.
     ...    3. Check that nav bar is not visible.
 
-    common.Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify Element Then Click    ${MENU_BURGER}
     Browser.Wait For Elements State    ${ACTIVE_NAV}    stable
-    common.Verify_Element_Then_Click    ${MENU_BURGER}
+    common.Verify Element Then Click    ${MENU_BURGER}
     Browser.Wait For Elements State    ${ACTIVE_NAV}    hidden
 
 TC_HOME_UI_TEST_006

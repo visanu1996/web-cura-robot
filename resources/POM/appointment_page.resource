@@ -46,15 +46,16 @@ Insert Booking Data
 # Date pick
     ${input_date}=    Run Keyword If    '${visit_date_n}' == '${EMPTY}'    Get Current Date    result_format=%d/%m/%Y    ELSE    Set Variable    ${visit_date_n}
     Browser.Fill Text    ${VISIT_DATE}    ${input_date}
-    Sleep    2
-
+    Browser.Keyboard Key    press    Enter
+    Sleep    5
     Browser.Keyboard Key    press    Tab
-    # Get all value to verify in confirmation page
-    Set To Dictionary    ${data_set}    
-    ...    FACILITY=${facilitiy_selected}[0] 
-    ...    READMISSION_CHOICE=${readmission_choice}    
-    ...    HEALTH_CARE=${health_text}    
-    ...    VISIT_DATE=${input_date}    
-    ...    COMMENT=${comment_n}
 
-    common.Verify_Element_Then_Click    ${SUBMIT_APPOINTMENT}
+    # Get all value to verify in confirmation page
+    Set To Dictionary    ${data_set}
+    ...    Facility=${facilitiy_selected}[0] 
+    ...    readmission=${readmission_choice}    
+    ...    Healthcare=${health_text}    
+    ...    Visit=${input_date}    
+    ...    Comment=${comment_n}
+
+    common.Verify Element Then Click    ${SUBMIT_APPOINTMENT}
